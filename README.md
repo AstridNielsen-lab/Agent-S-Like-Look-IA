@@ -45,11 +45,12 @@
 ## Table of Contents
 
 1. [💡 Introduction](#-introduction)
-2. [🎯 Current Results](#-current-results)
-3. [🛠️ Installation & Setup](#%EF%B8%8F-installation--setup) 
-4. [🚀 Usage](#-usage)
-5. [🤝 Acknowledgements](#-acknowledgements)
-6. [💬 Citation](#-citation)
+2. [👨‍💻 Development Team](#-development-team)
+3. [🎯 Current Results](#-current-results)
+4. [🛠️ Installation & Setup](#%EF%B8%8F-installation--setup) 
+5. [🚀 Usage](#-usage)
+6. [🤝 Acknowledgements](#-acknowledgements)
+7. [💬 Citation](#-citation)
 
 ## 💡 Introduction
 
@@ -60,6 +61,13 @@
 Welcome to **Agent S**, an open-source framework designed to enable autonomous interaction with computers through Agent-Computer Interface. Our mission is to build intelligent GUI agents that can learn from past experiences and perform complex tasks autonomously on your computer. 
 
 Whether you're interested in AI, automation, or contributing to cutting-edge agent-based systems, we're excited to have you here!
+
+## 👨‍💻 Development Team
+
+The latest version of Agent S has been developed by:
+
+- **Like Look Solutions** - Company responsible for this version
+- **Julio Campos Machado** - Full Stack Developer
 
 ## 🎯 Current Results
 
