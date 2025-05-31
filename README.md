@@ -350,13 +350,6 @@ workflow.schedule(
 - **Implementation Assistance**: Professional services for enterprise deployment
 - **Custom Development**: Tailored solutions for specific business requirements
 
-### Contact Information
-
-- **Sales Inquiries**: [sales@likelooksolutions.com](mailto:sales@likelooksolutions.com)
-- **Technical Support**: [support@likelooksolutions.com](mailto:support@likelooksolutions.com)
-- **Enterprise Portal**: [https://enterprise.likelooksolutions.com](https://github.com/AstridNielsen-lab/Agent-S-Like-Look-IA)
-- **Documentation**: [https://docs.likelooksolutions.com](https://github.com/AstridNielsen-lab/Agent-S-Like-Look-IA/wiki)
-
 ### Community Resources
 
 - **GitHub Repository**: [github.com/AstridNielsen-lab/Agent-S-Like-Look-IA](https://github.com/AstridNielsen-lab/Agent-S-Like-Look-IA)
