@@ -353,7 +353,7 @@ workflow.schedule(
 ---
 
 <p align="center">
-  <img src="images/like_look_solutions_logo.png" alt="Like Look Solutions Logo" width="200">
+  <img src="https://static.wixstatic.com/media/ef3e67_051e5ffb7c6d471fb4d8a71b831a7d19~mv2.png/v1/fill/w_387,h_387,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/logo%20like%20look%20solutions%20trasparent.png" alt="Like Look Solutions Logo" width="200">
   <br>
   <i>Empowering Business Automation with Intelligent Agents</i>
   <br>
