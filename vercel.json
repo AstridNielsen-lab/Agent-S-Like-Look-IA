@@ -14,22 +14,10 @@
       "use": "@vercel/static"
     }
   ],
-  "routes": [
-    {
-      "src": "/images/(.*)",
-      "dest": "/images/$1",
-      "headers": {
-        "Cache-Control": "public, max-age=86400"
-      }
-    },
-    {
-      "src": "/(.*)\\.md",
-      "dest": "/$1.md"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
-    }
+  "rewrites": [
+    { "source": "/images/(.*)", "destination": "/images/$1" },
+    { "source": "/(.*)\\.md", "destination": "/$1.md" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ],
   "github": {
     "silent": true
