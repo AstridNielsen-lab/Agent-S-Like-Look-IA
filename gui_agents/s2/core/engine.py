@@ -19,54 +19,24 @@ class LMMEngine:
     pass
 
 
-class OpenAIEmbeddingEngine(LMMEngine):
-    def __init__(
-        self,
-        embedding_model: str = "text-embedding-3-small",
-        api_key=None,
-    ):
-        """Init an OpenAI Embedding engine
-
-        Args:
-            embedding_model (str, optional): Model name. Defaults to "text-embedding-3-small".
-            api_key (_type_, optional): Auth key from OpenAI. Defaults to None.
-        """
-        self.model = embedding_model
-
-        api_key = api_key or os.getenv("OPENAI_API_KEY")
-        if api_key is None:
-            raise ValueError(
-                "An API Key needs to be provided in either the api_key parameter or as an environment variable named OPENAI_API_KEY"
-            )
-        self.api_key = api_key
-
-    @backoff.on_exception(
-        backoff.expo,
-        (
-            APIError,
-            RateLimitError,
-            APIConnectionError,
-        ),
-    )
-    def get_embeddings(self, text: str) -> np.ndarray:
-        client = OpenAI(api_key=self.api_key)
-        response = client.embeddings.create(model=self.model, input=text)
-        return np.array([data.embedding for data in response.data])
-
-
 class GeminiEmbeddingEngine(LMMEngine):
     def __init__(
         self,
         embedding_model: str = "gemini-embedding-exp-03-07",
         api_key=None,
+        rate_limit: int = -1,
+        display_cost: bool = True,
     ):
-        """Init an Gemini Embedding engine
+        """Init a Gemini Embedding engine
 
         Args:
             embedding_model (str, optional): Model name. Defaults to "gemini-embedding-exp-03-07".
             api_key (_type_, optional): Auth key from Gemini. Defaults to None.
+            rate_limit (int, optional): Max number of requests per minute. Defaults to -1.
+            display_cost (bool, optional): Display cost of API call. Defaults to True.
         """
         self.model = embedding_model
+        self.display_cost = display_cost
 
         api_key = api_key or os.getenv("GEMINI_API_KEY")
         if api_key is None:
@@ -74,6 +44,7 @@ class GeminiEmbeddingEngine(LMMEngine):
                 "An API Key needs to be provided in either the api_key parameter or as an environment variable named GEMINI_API_KEY"
             )
         self.api_key = api_key
+        self.request_interval = 0 if rate_limit == -1 else 60.0 / rate_limit
 
     @backoff.on_exception(
         backoff.expo,
@@ -92,7 +63,70 @@ class GeminiEmbeddingEngine(LMMEngine):
             config=types.EmbedContentConfig(task_type="SEMANTIC_SIMILARITY"),
         )
 
-        return np.array([i.values for i in result.embeddings])
+        # Extract the embeddings from the result
+        embeddings = np.array([i.values for i in result.embeddings])
+        
+        # Gemini embeddings are 3072 dimensions by default, but the system might expect 1536 dimensions
+        # Reshape to 1536 dimensions by averaging pairs of adjacent values
+        if embeddings.shape[1] == 3072:
+            # Reshape to have pairs of adjacent values
+            reshaped = embeddings.reshape(embeddings.shape[0], embeddings.shape[1] // 2, 2)
+            # Average each pair
+            embeddings = reshaped.mean(axis=2)
+            
+        if self.display_cost:
+            # No usage information available for Gemini
+            pass
+            
+        return embeddings
+
+
+class OpenAIEmbeddingEngine(LMMEngine):
+    def __init__(
+        self,
+        embedding_model: str = "text-embedding-3-small",
+        api_key=None,
+        rate_limit: int = -1,
+        display_cost: bool = True,
+    ):
+        """Init an OpenAI Embedding engine
+
+        Args:
+            embedding_model (str, optional): Model name. Defaults to "text-embedding-3-small".
+            api_key (_type_, optional): Auth key from OpenAI. Defaults to None.
+            rate_limit (int, optional): Max number of requests per minute. Defaults to -1.
+            display_cost (bool, optional): Display cost of API call. Defaults to True.
+        """
+        self.model = embedding_model
+        self.cost_per_thousand_tokens = 0.00002
+        self.display_cost = display_cost
+
+        api_key = api_key or os.getenv("OPENAI_API_KEY")
+        if api_key is None:
+            raise ValueError(
+                "An API Key needs to be provided in either the api_key parameter or as an environment variable named OPENAI_API_KEY"
+            )
+        self.api_key = api_key
+        self.request_interval = 0 if rate_limit == -1 else 60.0 / rate_limit
+
+    @backoff.on_exception(
+        backoff.expo,
+        (
+            APIError,
+            RateLimitError,
+            APIConnectionError,
+        ),
+    )
+    def get_embeddings(self, text: str) -> np.ndarray:
+        client = OpenAI(api_key=self.api_key)
+        response = client.embeddings.create(model=self.model, input=text)
+        if self.display_cost:
+            total_tokens = response.usage.total_tokens
+            cost = self.cost_per_thousand_tokens * total_tokens / 1000
+            # print(f"Total cost for this embedding API call: {cost}")
+        return np.array([data.embedding for data in response.data])
+
+
 
 
 class AzureOpenAIEmbeddingEngine(LMMEngine):

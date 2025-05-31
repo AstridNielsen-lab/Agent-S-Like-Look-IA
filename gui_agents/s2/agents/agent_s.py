@@ -98,7 +98,7 @@ class AgentS2(UIAgent):
         memory_root_path: str = os.getcwd(),
         memory_folder_name: str = "kb_s2",
         kb_release_tag: str = "v0.2.2",
-        embedding_engine_type: str = "openai",
+        embedding_engine_type: str = "gemini",
     ):
         """Initialize AgentS2
 
@@ -154,10 +154,10 @@ class AgentS2(UIAgent):
                 "Note, the knowledge is continually updated during inference. Deleting the knowledge base will wipe out all experience gained since the last knowledge base download."
             )
 
-        if embedding_engine_type == "openai":
-            self.embedding_engine = OpenAIEmbeddingEngine()
-        elif embedding_engine_type == "gemini":
+        if embedding_engine_type == "gemini":
             self.embedding_engine = GeminiEmbeddingEngine()
+        elif embedding_engine_type == "openai":
+            self.embedding_engine = OpenAIEmbeddingEngine()
         elif embedding_engine_type == "azure":
             self.embedding_engine = AzureOpenAIEmbeddingEngine()
 

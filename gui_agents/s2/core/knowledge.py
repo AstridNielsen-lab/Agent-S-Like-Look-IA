@@ -16,6 +16,74 @@ from gui_agents.s2.utils.common_utils import (
 from gui_agents.s2.utils.query_perplexica import query_to_perplexica
 
 
+def make_embeddings_compatible(query_embedding, candidate_embeddings):
+    """
+    Make embeddings compatible for cosine similarity calculation.
+    
+    Args:
+        query_embedding: numpy array with shape (1, d1)
+        candidate_embeddings: list of numpy arrays with shape (1, d2)
+    
+    Returns:
+        Tuple of compatible embeddings (query_embedding, np.vstack(candidate_embeddings))
+    """
+    # Get the dimensions of embeddings
+    query_dim = query_embedding.shape[1]
+    candidate_dim = candidate_embeddings[0].shape[1]
+    
+    # If dimensions match, no conversion needed
+    if query_dim == candidate_dim:
+        return query_embedding, np.vstack(candidate_embeddings)
+    
+    # Convert OpenAI (1536) to Gemini (3072) by duplicating values
+    if query_dim == 1536 and candidate_dim == 3072:
+        # Duplicate values to expand from 1536 to 3072
+        expanded_query = np.repeat(query_embedding, 2, axis=1)
+        return expanded_query, np.vstack(candidate_embeddings)
+    
+    # Convert Gemini (3072) to OpenAI (1536) by averaging pairs
+    elif query_dim == 3072 and candidate_dim == 1536:
+        # Reshape to have pairs of adjacent values and average them
+        query_reshaped = query_embedding.reshape(query_embedding.shape[0], query_embedding.shape[1] // 2, 2)
+        compressed_query = query_reshaped.mean(axis=2)
+        return compressed_query, np.vstack(candidate_embeddings)
+    
+    # If candidate embeddings are 3072 and query is 1536, expand query
+    elif query_dim == 1536 and any(e.shape[1] == 3072 for e in candidate_embeddings):
+        # Duplicate values to expand from 1536 to 3072
+        expanded_query = np.repeat(query_embedding, 2, axis=1)
+        
+        # Convert any 1536-dimensional candidate embeddings to 3072
+        compatible_candidates = []
+        for emb in candidate_embeddings:
+            if emb.shape[1] == 1536:
+                compatible_candidates.append(np.repeat(emb, 2, axis=1))
+            else:
+                compatible_candidates.append(emb)
+        
+        return expanded_query, np.vstack(compatible_candidates)
+    
+    # If candidate embeddings are 1536 and query is 3072, compress query
+    elif query_dim == 3072 and any(e.shape[1] == 1536 for e in candidate_embeddings):
+        # Reshape to have pairs of adjacent values and average them
+        query_reshaped = query_embedding.reshape(query_embedding.shape[0], query_embedding.shape[1] // 2, 2)
+        compressed_query = query_reshaped.mean(axis=2)
+        
+        # Convert any 3072-dimensional candidate embeddings to 1536
+        compatible_candidates = []
+        for emb in candidate_embeddings:
+            if emb.shape[1] == 3072:
+                emb_reshaped = emb.reshape(emb.shape[0], emb.shape[1] // 2, 2)
+                compatible_candidates.append(emb_reshaped.mean(axis=2))
+            else:
+                compatible_candidates.append(emb)
+        
+        return compressed_query, np.vstack(compatible_candidates)
+    
+    # Default case (should not happen with our setup)
+    return query_embedding, np.vstack(candidate_embeddings)
+
+
 class KnowledgeBase(BaseModule):
     def __init__(
         self,
@@ -186,9 +254,19 @@ class KnowledgeBase(BaseModule):
 
         save_embeddings(self.embeddings_path, embeddings)
 
-        similarities = cosine_similarity(
-            instruction_embedding, np.vstack(candidate_embeddings)
-        )[0]
+        try:
+            # Make embeddings compatible before calculating similarity
+            compatible_query, compatible_candidates = make_embeddings_compatible(
+                instruction_embedding, candidate_embeddings
+            )
+            
+            similarities = cosine_similarity(
+                compatible_query, compatible_candidates
+            )[0]
+        except Exception as e:
+            print(f"Error in cosine similarity calculation: {e}")
+            # Fallback: return first item if similarity calculation fails
+            return list(knowledge_base.keys())[0], list(knowledge_base.values())[0]
         sorted_indices = np.argsort(similarities)[::-1]
 
         keys = list(knowledge_base.keys())
@@ -223,9 +301,19 @@ class KnowledgeBase(BaseModule):
 
         save_embeddings(self.embeddings_path, embeddings)
 
-        similarities = cosine_similarity(
-            instruction_embedding, np.vstack(candidate_embeddings)
-        )[0]
+        try:
+            # Make embeddings compatible before calculating similarity
+            compatible_query, compatible_candidates = make_embeddings_compatible(
+                instruction_embedding, candidate_embeddings
+            )
+            
+            similarities = cosine_similarity(
+                compatible_query, compatible_candidates
+            )[0]
+        except Exception as e:
+            print(f"Error in cosine similarity calculation: {e}")
+            # Fallback: return first item if similarity calculation fails
+            return list(knowledge_base.keys())[0], list(knowledge_base.values())[0]
         sorted_indices = np.argsort(similarities)[::-1]
 
         keys = list(knowledge_base.keys())
