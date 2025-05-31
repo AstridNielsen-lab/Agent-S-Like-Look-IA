@@ -350,12 +350,6 @@ workflow.schedule(
 - **Implementation Assistance**: Professional services for enterprise deployment
 - **Custom Development**: Tailored solutions for specific business requirements
 
-### Community Resources
-
-- **GitHub Repository**: [github.com/AstridNielsen-lab/Agent-S-Like-Look-IA](https://github.com/AstridNielsen-lab/Agent-S-Like-Look-IA)
-- **Release Notes**: [https://likelooksolutions.com/releases](https://github.com/AstridNielsen-lab/Agent-S-Like-Look-IA/releases)
-- **Knowledge Base**: [https://kb.likelooksolutions.com](https://github.com/AstridNielsen-lab/Agent-S-Like-Look-IA/wiki/knowledge-base)
-
 ---
 
 <p align="center">
