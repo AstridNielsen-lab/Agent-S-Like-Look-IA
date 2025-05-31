@@ -17,9 +17,63 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
+        /* Splash Screen Styles */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease-in-out;
+        }
+        #splash-logo {
+            animation: pulse 2s infinite;
+        }
+        #splash-title {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        #splash-developer {
+            animation: fadeIn 2s ease-in-out;
+        }
+        #main-content {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="bg-gray-50 font-sans">
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div id="splash-logo" class="mb-8">
+            <img src="./images/agent_s.png" alt="Agent S Logo" class="w-40 h-40 object-contain">
+        </div>
+        <h1 id="splash-title" class="text-4xl font-bold text-white mb-4">Agent S2</h1>
+        <h2 class="text-xl text-white mb-6">Powered by Like Look Solutions</h2>
+        <div id="splash-developer" class="text-white text-center">
+            <p class="text-lg mb-1">Developed by</p>
+            <p class="text-2xl font-bold">Julio Campos Machado</p>
+            <p class="text-sm mt-2">Using Google Gemini Technology</p>
+        </div>
+    </div>
+
+    <!-- Main Content (Initially Hidden) -->
+    <div id="main-content">
+    
     <!-- Header -->
     <header class="gradient-bg text-white">
         <div class="container mx-auto px-6 py-16 max-w-6xl">
@@ -220,6 +274,7 @@
                 <div>
                     <h3 class="text-lg font-bold mb-4">Agent S2</h3>
                     <p class="text-gray-400">A Compositional Generalist-Specialist Framework for Computer Use Agents</p>
+                    <p class="text-gray-400 mt-4">Rebuilt and enhanced by Julio Campos Machado using Google Gemini technology</p>
                 </div>
                 <div>
                     <h3 class="text-lg font-bold mb-4">Resources</h3>
@@ -238,16 +293,20 @@
                     </ul>
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold mb-4">Development</h3>
-                    <p class="text-gray-400">Developed by Like Look Solutions</p>
+                    <h3 class="text-lg font-bold mb-4">Like Look Solutions</h3>
                     <p class="text-gray-400">Lead Developer: Julio Campos Machado</p>
+                    <p class="text-gray-400 mt-2"><i class="fab fa-whatsapp mr-2"></i> +5511970603441</p>
+                    <p class="text-gray-400"><i class="fas fa-globe mr-2"></i> <a href="https://likelook.wixsite.com/solutions" class="hover:text-white transition duration-300">likelook.wixsite.com/solutions</a></p>
                 </div>
             </div>
             <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
                 <p>© 2025 Like Look Solutions. All rights reserved.</p>
+                <p class="mt-2">This version completely rebuilt by Julio Campos Machado using Google Gemini technology.</p>
             </div>
         </div>
     </footer>
+
+    </div><!-- End of main-content -->
 
     <script>
         // Add smooth scrolling for anchor links
@@ -258,6 +317,23 @@
                     behavior: 'smooth'
                 });
             });
+        });
+
+        // Splash screen handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const splashScreen = document.getElementById('splash-screen');
+            const mainContent = document.getElementById('main-content');
+            
+            // Show splash screen for 3 seconds, then fade out
+            setTimeout(function() {
+                splashScreen.style.opacity = '0';
+                mainContent.style.opacity = '1';
+                
+                // Remove splash screen after animation completes
+                setTimeout(function() {
+                    splashScreen.style.display = 'none';
+                }, 800);
+            }, 3000);
         });
     </script>
 </body>
