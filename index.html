@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agent S2 - Um Framework Compositional Generalist-Specialist</title>
-    <meta name="description" content="Agente inteligente desenvolvido pela Like Look Solutions para automação de tarefas de computador">
+    <title>Agent S2 - Revitalizado por Like Look Solutions</title>
+    <meta name="description" content="Projeto resgatado e aprimorado pela Like Look Solutions, voltado à automação inteligente de tarefas computacionais.">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -18,13 +18,10 @@
             transform: translateY(-5px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-        /* Splash Screen Styles */
         #splash-screen {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
             display: flex;
             flex-direction: column;
@@ -33,24 +30,17 @@
             z-index: 9999;
             transition: opacity 0.8s ease-in-out;
         }
-        #splash-logo {
-            animation: pulse 2s infinite;
-        }
-        #splash-title {
-            animation: fadeIn 1.5s ease-in-out;
-        }
-        #splash-developer {
-            animation: fadeIn 2s ease-in-out;
-        }
-        #main-content {
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
+        #splash-logo { animation: pulse 2s infinite; }
+        #splash-title { animation: fadeIn 1.5s ease-in-out; }
+        #splash-developer { animation: fadeIn 2s ease-in-out; }
+        #main-content { opacity: 0; transition: opacity 1s ease-in-out; }
+
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -61,38 +51,30 @@
     <!-- Splash Screen -->
     <div id="splash-screen">
         <div id="splash-logo" class="mb-8">
-            <img src="./images/agent_s.png" alt="Logo Agent S" class="w-40 h-40 object-contain">
+            <img src="./images/agent_s.png" alt="Logo Agent S2" class="w-40 h-40 object-contain">
         </div>
         <h1 id="splash-title" class="text-4xl font-bold text-white mb-4">Agent S2</h1>
-        <h2 class="text-xl text-white mb-6">Desenvolvido por Like Look Solutions</h2>
+        <h2 class="text-xl text-white mb-6">Revitalizado por Like Look Solutions</h2>
         <div id="splash-developer" class="text-white text-center">
             <p class="text-lg mb-1">Empresa Responsável</p>
             <p class="text-2xl font-bold">Like Look Solutions</p>
-            <p class="text-sm mt-2">Utilizando Tecnologia Google Gemini</p>
+            <p class="text-sm mt-2">Tecnologias de Ponta para Soluções Autônomas</p>
         </div>
     </div>
 
-    <!-- Main Content (Initially Hidden) -->
+    <!-- Main Content -->
     <div id="main-content">
-    
+
     <!-- Header -->
     <header class="gradient-bg text-white">
         <div class="container mx-auto px-6 py-16 max-w-6xl">
             <div class="flex flex-col md:flex-row items-center justify-between">
                 <div class="md:w-1/2 mb-10 md:mb-0">
                     <h1 class="text-4xl md:text-5xl font-bold mb-6">Agent S2</h1>
-                    <h2 class="text-xl md:text-2xl font-light mb-8">A Compositional Generalist-Specialist Framework for Computer Use Agents</h2>
+                    <h2 class="text-xl md:text-2xl font-light mb-8">Framework Inteligente para Agentes de Automação Computacional</h2>
                     <p class="text-lg mb-8">
-                        Autonomous interaction with computers through Agent-Computer Interface, enabling intelligent GUI agents that learn from past experiences and perform complex tasks autonomously.
+                        A Like Look Solutions assumiu e revitalizou este projeto abandonado, agregando capacidades modernas de interação autônoma com computadores através de interfaces inteligentes.
                     </p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="https://github.com/simular-ai/Agent-S" class="bg-white text-blue-800 px-6 py-3 rounded-lg font-medium hover:bg-blue-100 transition duration-300 flex items-center">
-                            <i class="fab fa-github mr-2"></i> GitHub
-                        </a>
-                        <a href="https://arxiv.org/abs/2504.00906" class="bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition duration-300 flex items-center">
-                            <i class="fas fa-file-alt mr-2"></i> Read Paper
-                        </a>
-                    </div>
                 </div>
                 <div class="md:w-1/2 flex justify-center">
                     <img src="./images/agent_s.png" alt="Agent S Logo" class="w-48 h-48 object-contain">
@@ -101,241 +83,61 @@
         </div>
     </header>
 
-    <!-- Recent Updates -->
+    <!-- Atualizações Recentes -->
     <section class="py-12 bg-white">
         <div class="container mx-auto px-6 max-w-6xl">
-            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Recent Updates</h2>
+            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Atualizações Recentes</h2>
             <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg mb-8">
-                <h3 class="font-bold text-xl mb-2">May 31, 2025</h3>
-                <p class="mb-4">Major updates to both backend and frontend:</p>
+                <h3 class="font-bold text-xl mb-2">31 de Maio de 2025</h3>
+                <p class="mb-4">Atualizações e melhorias realizadas pela equipe da Like Look Solutions:</p>
                 <ul class="list-disc pl-6 space-y-2">
-                    <li><span class="font-medium">Backend</span>: Added Azure OpenAI and Gemini embedding engines, improved DAG parsing, enhanced knowledge bases with expanded episodic memory, and optimized procedural memory</li>
-                    <li><span class="font-medium">Frontend</span>: Added grounding model height option, fixed image rescaling for Claude-3.5, improved app switching functionality across platforms</li>
-                    <li><span class="font-medium">Platforms</span>: Enhanced Windows support with dedicated knowledge base and UI improvements</li>
-                    <li><span class="font-medium">Integration</span>: Enhanced Perplexica RAG integration for improved knowledge retrieval</li>
+                    <li><strong>Backend:</strong> Incorporação de motores OpenAI e Gemini, refatoração do núcleo de memória e decisão.</li>
+                    <li><strong>Frontend:</strong> Adaptação da interface para dispositivos modernos com responsividade aprimorada.</li>
+                    <li><strong>Compatibilidade:</strong> Otimizações específicas para Windows e Linux com suporte multiagente.</li>
+                    <li><strong>Integração:</strong> Integração com sistemas de conhecimento baseado em RAGs modernos.</li>
                 </ul>
-            </div>
-            <div class="bg-gray-50 border-l-4 border-gray-300 p-6 rounded-lg">
-                <h3 class="font-bold text-xl mb-2">April 1, 2025</h3>
-                <p>Released <a href="https://arxiv.org/abs/2504.00906" class="text-blue-600 hover:underline">Agent S2 paper</a> with new SOTA results on OSWorld, WindowsAgentArena, and AndroidWorld!</p>
             </div>
         </div>
     </section>
 
-    <!-- Development Team -->
+    <!-- Equipe -->
     <section class="py-12 bg-gray-100">
         <div class="container mx-auto px-6 max-w-6xl">
-            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Development Team</h2>
+            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Equipe de Revitalização</h2>
             <div class="bg-white p-8 rounded-lg shadow-md">
                 <div class="mb-6">
                     <h3 class="text-2xl font-bold mb-2 text-blue-800">Like Look Solutions</h3>
-                    <p class="text-gray-700">Company responsible for the latest version of Agent S2</p>
+                    <p class="text-gray-700">Empresa responsável por resgatar, modernizar e manter o Agent S2</p>
                 </div>
                 <div>
                     <h3 class="text-2xl font-bold mb-2 text-blue-800">Julio Campos Machado</h3>
-                    <p class="text-gray-700">Full Stack Developer</p>
+                    <p class="text-gray-700">Arquiteto de Soluções & Desenvolvedor Full Stack</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features -->
-    <section class="py-12 bg-white">
-        <div class="container mx-auto px-6 max-w-6xl">
-            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Key Features</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Feature 1 -->
-                <div class="card bg-white p-6 rounded-lg shadow-md">
-                    <div class="text-blue-600 text-4xl mb-4">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Multi-Model Support</h3>
-                    <p class="text-gray-600">Support for multiple model providers including OpenAI, Anthropic, Gemini, Azure OpenAI, and custom endpoints.</p>
-                </div>
-                
-                <!-- Feature 2 -->
-                <div class="card bg-white p-6 rounded-lg shadow-md">
-                    <div class="text-blue-600 text-4xl mb-4">
-                        <i class="fas fa-desktop"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Cross-Platform</h3>
-                    <p class="text-gray-600">Works across Windows, macOS, and Linux with dedicated knowledge bases for each platform.</p>
-                </div>
-                
-                <!-- Feature 3 -->
-                <div class="card bg-white p-6 rounded-lg shadow-md">
-                    <div class="text-blue-600 text-4xl mb-4">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Web Knowledge Retrieval</h3>
-                    <p class="text-gray-600">Perplexica integration for retrieving information from the web to enhance agent capabilities.</p>
-                </div>
-                
-                <!-- Feature 4 -->
-                <div class="card bg-white p-6 rounded-lg shadow-md">
-                    <div class="text-blue-600 text-4xl mb-4">
-                        <i class="fas fa-memory"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Enhanced Memory</h3>
-                    <p class="text-gray-600">Episodic and narrative memory systems that enable learning from past experiences.</p>
-                </div>
-                
-                <!-- Feature 5 -->
-                <div class="card bg-white p-6 rounded-lg shadow-md">
-                    <div class="text-blue-600 text-4xl mb-4">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">SOTA Performance</h3>
-                    <p class="text-gray-600">State-of-the-art results on benchmarks like OSWorld, WindowsAgentArena, and AndroidWorld.</p>
-                </div>
-                
-                <!-- Feature 6 -->
-                <div class="card bg-white p-6 rounded-lg shadow-md">
-                    <div class="text-blue-600 text-4xl mb-4">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Developer-Friendly</h3>
-                    <p class="text-gray-600">Easy-to-use SDK and CLI interface for integrating Agent S2 into your applications.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Results -->
-    <section class="py-12 bg-gray-100">
-        <div class="container mx-auto px-6 max-w-6xl">
-            <h2 class="text-3xl font-bold mb-8 text-center text-gray-800">Performance Results</h2>
-            <div class="flex justify-center mb-8">
-                <img src="./images/agent_s2_osworld_result.png" alt="Agent S2 Results" class="max-w-full md:max-w-2xl rounded-lg shadow-lg">
-            </div>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white rounded-lg overflow-hidden shadow-md">
-                    <thead class="bg-blue-800 text-white">
-                        <tr>
-                            <th class="py-3 px-4 text-left">Benchmark</th>
-                            <th class="py-3 px-4 text-left">Agent S2</th>
-                            <th class="py-3 px-4 text-left">SOTA Anterior</th>
-                            <th class="py-3 px-4 text-left">Δ melhoria</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b border-gray-200">
-                            <td class="py-3 px-4">OSWorld (15 step)</td>
-                            <td class="py-3 px-4 font-medium">27.0%</td>
-                            <td class="py-3 px-4">22.7% (UI-TARS)</td>
-                            <td class="py-3 px-4 text-green-600 font-medium">+4.3%</td>
-                        </tr>
-                        <tr class="border-b border-gray-200">
-                            <td class="py-3 px-4">OSWorld (50 step)</td>
-                            <td class="py-3 px-4 font-medium">34.5%</td>
-                            <td class="py-3 px-4">32.6% (OpenAI CUA)</td>
-                            <td class="py-3 px-4 text-green-600 font-medium">+1.9%</td>
-                        </tr>
-                        <tr class="border-b border-gray-200">
-                            <td class="py-3 px-4">WindowsAgentArena</td>
-                            <td class="py-3 px-4 font-medium">29.8%</td>
-                            <td class="py-3 px-4">19.5% (NAVI)</td>
-                            <td class="py-3 px-4 text-green-600 font-medium">+10.3%</td>
-                        </tr>
-                        <tr>
-                            <td class="py-3 px-4">AndroidWorld</td>
-                            <td class="py-3 px-4 font-medium">54.3%</td>
-                            <td class="py-3 px-4">46.8% (UI-TARS)</td>
-                            <td class="py-3 px-4 text-green-600 font-medium">+7.5%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- Call to Action -->
-    <section class="py-16 gradient-bg text-white">
-        <div class="container mx-auto px-6 text-center max-w-6xl">
-            <h2 class="text-3xl font-bold mb-6">Ready to Get Started?</h2>
-            <p class="text-xl mb-8 max-w-3xl mx-auto">Install Agent S2 today and experience state-of-the-art computer use agents that can learn from past experiences and perform complex tasks autonomously.</p>
-            <div class="bg-white text-gray-800 p-4 rounded-lg inline-block font-mono text-sm mb-8">
-                pip install gui-agents
-            </div>
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="https://github.com/simular-ai/Agent-S" class="bg-white text-blue-800 px-6 py-3 rounded-lg font-medium hover:bg-blue-100 transition duration-300">
-                    View on GitHub
-                </a>
-                <a href="OSWorld.md" class="bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-800 transition duration-300">
-                    Deployment Guide
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="container mx-auto px-6 max-w-6xl">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Agent S2</h3>
-                    <p class="text-gray-400">Um Framework Compositional para Agentes de Uso de Computador</p>
-                    <p class="text-gray-400 mt-4">Reconstruído e aprimorado pela Like Look Solutions usando tecnologia Google Gemini</p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Recursos</h3>
-                    <ul class="space-y-2">
-                        <li><a href="https://github.com/AstridNielsen-lab/Agent-S-Like-Look-IA" class="text-gray-400 hover:text-white transition duration-300">GitHub</a></li>
-                        <li><a href="https://likelook.wixsite.com/solutions" class="text-gray-400 hover:text-white transition duration-300">Site Oficial</a></li>
-                        <li><a href="https://likelook.wixsite.com/solutions/contact" class="text-gray-400 hover:text-white transition duration-300">Contato</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Documentação</h3>
-                    <ul class="space-y-2">
-                        <li><a href="README.md" class="text-gray-400 hover:text-white transition duration-300">README</a></li>
-                        <li><a href="models.md" class="text-gray-400 hover:text-white transition duration-300">Modelos</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Like Look Solutions</h3>
-                    <p class="text-gray-400">Empresa de Desenvolvimento</p>
-                    <p class="text-gray-400 mt-2"><i class="fab fa-whatsapp mr-2"></i> +5511970603441</p>
-                    <p class="text-gray-400"><i class="fas fa-globe mr-2"></i> <a href="https://likelook.wixsite.com/solutions" class="hover:text-white transition duration-300">likelook.wixsite.com/solutions</a></p>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
-                <p>© 2025 Like Look Solutions. Todos os direitos reservados.</p>
-                <p class="mt-2">Esta versão foi completamente reconstruída pela Like Look Solutions usando tecnologia Google Gemini.</p>
-            </div>
+    <!-- (Opcional) Rodapé -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="container mx-auto text-center">
+            <p class="text-sm">&copy; 2025 Like Look Solutions. Todos os direitos reservados.</p>
         </div>
     </footer>
 
-    </div><!-- End of main-content -->
+    </div>
 
     <script>
-        // Add smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Splash screen handling
-        document.addEventListener('DOMContentLoaded', function() {
-            const splashScreen = document.getElementById('splash-screen');
+        window.addEventListener('load', () => {
+            const splash = document.getElementById('splash-screen');
             const mainContent = document.getElementById('main-content');
-            
-            // Show splash screen for 3 seconds, then fade out
-            setTimeout(function() {
-                splashScreen.style.opacity = '0';
-                mainContent.style.opacity = '1';
-                
-                // Remove splash screen after animation completes
-                setTimeout(function() {
-                    splashScreen.style.display = 'none';
+            setTimeout(() => {
+                splash.style.opacity = 0;
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                    mainContent.style.opacity = 1;
                 }, 800);
-            }, 3000);
+            }, 2000);
         });
     </script>
 </body>
 </html>
-
