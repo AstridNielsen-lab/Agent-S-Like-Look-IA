@@ -30,6 +30,11 @@
 </p>
 
 ## 🥳 Updates
+- [x] **2025/05/31**: Major updates to both backend and frontend:
+  - **Backend**: Added Azure OpenAI and Gemini embedding engines, improved DAG parsing, enhanced knowledge bases with expanded episodic memory, and optimized procedural memory
+  - **Frontend**: Added grounding model height option, fixed image rescaling for Claude-3.5, improved app switching functionality across platforms
+  - **Platforms**: Enhanced Windows support with dedicated knowledge base and UI improvements
+  - **Integration**: Enhanced Perplexica RAG integration for improved knowledge retrieval
 - [x] **2025/04/01**: Released <a href="https://arxiv.org/abs/2504.00906">Agent S2 paper</a> with new SOTA results on OSWorld, WindowsAgentArena, and AndroidWorld!
 - [x] **2025/03/12**: Released Agent S2 along with v0.2.0 of [gui-agents](https://github.com/simular-ai/Agent-S), the new state-of-the-art for computer use agents (CUA), outperforming OpenAI's CUA/Operator and Anthropic's Claude 3.7 Sonnet Computer-Use!
 - [x] **2025/01/22**: The [Agent S paper](https://arxiv.org/abs/2410.08164) is accepted to ICLR 2025!
@@ -331,6 +336,29 @@ exec(action[0])
 ```
 
 Refer to `gui_agents/s2/cli_app.py` for more details on how the inference loop works.
+
+### Recent Improvements
+
+#### Core Infrastructure Enhancements
+- **Azure OpenAI Support**: Added Azure OpenAI embedding engine for improved semantic understanding
+- **Gemini Integration**: Full support for Google's Gemini models for both main agent and grounding
+- **Windows Platform**: Dedicated knowledge base and optimized UI interaction for Windows environments
+- **DAG Parsing**: Improved directed acyclic graph parsing for more efficient task planning
+- **Enhanced Knowledge Base**: Added comprehensive Perplexica RAG knowledge with expanded episodic memory
+
+#### Frontend/UI Improvements
+- **Grounding Model Height Option**: Added customizable height parameter for grounding models to improve coordinate accuracy
+- **Image Rescaling**: Fixed image rescaling for Claude-3.5 and other vision models
+- **App Switching**: Enhanced cross-platform app switching functionality
+- **GUI Interactions**: Improved handling of complex UI elements and interactions
+- **Perplexica Integration**: Seamless integration with Perplexica for web knowledge retrieval
+
+#### Backend Optimizations
+- **Updated Embeddings**: Refreshed embedding models and knowledge bases for better semantic understanding
+- **Procedural Memory**: Improved procedural memory for more effective task execution
+- **Narrative Capabilities**: Enhanced agent narrative capabilities for better reasoning and planning
+- **Custom Model Providers**: Added support for additional model providers and customizable endpoints
+- **Bug Fixes**: Addressed various bugs in task execution and UI interaction
 
 #### Downloading the Knowledge Base
 
