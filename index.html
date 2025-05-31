@@ -1,4 +1,553 @@
 <!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent S2 - Assistente de Atendimento</title>
+    <style>
+        :root {
+            --primary-color: #4a86e8;
+            --secondary-color: #6aa84f;
+            --background-color: #f9f9f9;
+            --chat-bubble-ai: #e6f2ff;
+            --chat-bubble-user: #f0f7e6;
+            --text-color: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .chat-container {
+            max-width: 800px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            overflow: hidden;
+        }
+
+        .header-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header-info h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .header-info p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.ai {
+            justify-content: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 12px 15px;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message.ai .message-bubble {
+            background-color: var(--chat-bubble-ai);
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.user .message-bubble {
+            background-color: var(--chat-bubble-user);
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.ai .message-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -10px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--chat-bubble-ai);
+            border-bottom-right-radius: 15px;
+            z-index: -1;
+        }
+
+        .message.user .message-bubble::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: -10px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--chat-bubble-user);
+            border-bottom-left-radius: 15px;
+            z-index: -1;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            color: #777;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .chat-input {
+            padding: 15px;
+            background-color: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary-color);
+        }
+
+        .send-btn, .speak-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .send-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .speak-btn {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .send-btn:hover, .speak-btn:hover {
+            opacity: 0.9;
+        }
+
+        .speak-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #999;
+            border-radius: 50%;
+            animation: typingAnimation 1.5s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingAnimation {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                margin: 0;
+                height: 100vh;
+                border-radius: 0;
+            }
+
+            .chat-header {
+                border-radius: 0;
+            }
+
+            .message-bubble {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="header-avatar">
+                <img src="https://via.placeholder.com/50/4a86e8/ffffff?text=JCM" alt="Avatar de Julio Campos Machado">
+            </div>
+            <div class="header-info">
+                <h1>Julio Campos Machado</h1>
+                <p>Especialista em Agent S2 - Like Look Solutions</p>
+            </div>
+        </div>
+        
+        <div class="chat-messages" id="chat-messages">
+            <!-- Messages will be inserted here -->
+        </div>
+
+        <div class="chat-input">
+            <input type="text" class="input-field" id="user-input" placeholder="Digite sua mensagem aqui..." autocomplete="off">
+            <button class="send-btn" id="send-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+            </button>
+            <button class="speak-btn" id="speak-btn" title="Ouvir resposta">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                    <line x1="8" y1="23" x2="16" y2="23"></line>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatMessages = document.getElementById('chat-messages');
+            const userInput = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
+            const speakBtn = document.getElementById('speak-btn');
+            
+            // Speech synthesis setup
+            const synth = window.speechSynthesis;
+            let isSpeaking = false;
+            let lastAiMessage = '';
+            
+            // Initialize with welcome message
+            setTimeout(() => {
+                addMessage("Olá! Sou Julio Campos Machado, especialista em soluções da Like Look Solutions. Como posso ajudar você com o Agent S2 hoje?", 'ai');
+            }, 500);
+            
+            // Event listeners
+            sendBtn.addEventListener('click', handleSendMessage);
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleSendMessage();
+                }
+            });
+            
+            speakBtn.addEventListener('click', function() {
+                if (!lastAiMessage) return;
+                
+                if (synth.speaking) {
+                    synth.cancel();
+                    isSpeaking = false;
+                    updateSpeakButtonState();
+                    return;
+                }
+                
+                speakText(lastAiMessage);
+            });
+            
+            function handleSendMessage() {
+                const message = userInput.value.trim();
+                if (!message) return;
+                
+                // Add user message to chat
+                addMessage(message, 'user');
+                userInput.value = '';
+                
+                // Show typing indicator
+                showTypingIndicator();
+                
+                // Process message and get AI response (with delay to simulate thinking)
+                setTimeout(() => {
+                    const response = generateResponse(message);
+                    hideTypingIndicator();
+                    addMessage(response, 'ai');
+                    lastAiMessage = response;
+                    updateSpeakButtonState(true);
+                }, 1000 + Math.random() * 1000);
+            }
+            
+            function addMessage(text, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', sender);
+                
+                const bubble = document.createElement('div');
+                bubble.classList.add('message-bubble');
+                bubble.innerHTML = formatMessage(text);
+                
+                const time = document.createElement('div');
+                time.classList.add('message-time');
+                const now = new Date();
+                time.textContent = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+                
+                bubble.appendChild(time);
+                messageDiv.appendChild(bubble);
+                chatMessages.appendChild(messageDiv);
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            function formatMessage(text) {
+                // Convert URLs to links and handle basic formatting
+                return text
+                    .replace(/\n/g, '<br>')
+                    .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>');
+            }
+            
+            function showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.id = 'typing-indicator';
+                typingDiv.classList.add('message', 'ai');
+                
+                const bubble = document.createElement('div');
+                bubble.classList.add('typing-indicator');
+                
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('div');
+                    dot.classList.add('typing-dot');
+                    bubble.appendChild(dot);
+                }
+                
+                typingDiv.appendChild(bubble);
+                chatMessages.appendChild(typingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            function hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+            
+            function speakText(text) {
+                if (synth.speaking) {
+                    synth.cancel();
+                }
+                
+                // Remove HTML tags for speech
+                const plainText = text.replace(/<[^>]*>/g, '');
+                
+                const utterance = new SpeechSynthesisUtterance(plainText);
+                utterance.lang = 'pt-BR';
+                utterance.rate = 1.0;
+                utterance.pitch = 1.0;
+                
+                // Find a Portuguese voice if available
+                const voices = synth.getVoices();
+                const ptVoice = voices.find(voice => 
+                    voice.lang.includes('pt') || 
+                    voice.name.includes('Portuguese') || 
+                    voice.name.includes('Brasil')
+                );
+                
+                if (ptVoice) {
+                    utterance.voice = ptVoice;
+                }
+                
+                utterance.onstart = function() {
+                    isSpeaking = true;
+                    updateSpeakButtonState();
+                };
+                
+                utterance.onend = function() {
+                    isSpeaking = false;
+                    updateSpeakButtonState();
+                };
+                
+                utterance.onerror = function() {
+                    isSpeaking = false;
+                    updateSpeakButtonState();
+                };
+                
+                synth.speak(utterance);
+            }
+            
+            function updateSpeakButtonState(enabled = false) {
+                if (isSpeaking) {
+                    speakBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                        </svg>
+                    `;
+                    speakBtn.title = "Parar de ouvir";
+                } else {
+                    speakBtn.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                    `;
+                    speakBtn.title = "Ouvir resposta";
+                }
+                
+                speakBtn.disabled = !enabled && !isSpeaking;
+            }
+            
+            function generateResponse(userMessage) {
+                // Convert message to lowercase for easier matching
+                const message = userMessage.toLowerCase();
+                
+                // Basic information about Agent S2
+                if (message.includes('o que é') && (message.includes('agent s2') || message.includes('agente s2'))) {
+                    return "O Agent S2 é uma solução avançada de atendimento ao cliente desenvolvida pela Like Look Solutions. Ele combina inteligência artificial com processamento de linguagem natural para oferecer suporte automatizado e personalizado aos clientes.";
+                }
+                
+                if (message.includes('recurso') || message.includes('funcionalidade')) {
+                    return "O Agent S2 possui diversas funcionalidades inovadoras, incluindo:<br><br>• Atendimento 24/7 automatizado<br>• Reconhecimento de intenções do usuário<br>• Integração com CRMs e sistemas de gestão<br>• Análise de sentimento em tempo real<br>• Personalização de respostas baseada no histórico do cliente<br>• Suporte a múltiplos idiomas<br>• Escalabilidade para empresas de todos os tamanhos";
+                }
+                
+                if (message.includes('preço') || message.includes('custo') || message.includes('valor')) {
+                    return "O Agent S2 possui planos flexíveis que se adaptam ao tamanho e necessidades da sua empresa. Os preços começam em R$299/mês para o plano básico, até R$1.999/mês para o plano enterprise com recursos avançados. Entre em contato conosco para uma demonstração gratuita e proposta personalizada!";
+                }
+                
+                if (message.includes('implementa') || message.includes('instala') || message.includes('configura')) {
+                    return "A implementação do Agent S2 é simples e rápida. Nossa equipe técnica oferece suporte completo durante todo o processo, que inclui:<br><br>1. Análise das necessidades do seu negócio<br>2. Configuração personalizada do sistema<br>3. Integração com suas plataformas existentes<br>4. Treinamento da equipe<br>5. Acompanhamento e otimização contínua<br><br>O tempo médio de implementação é de apenas 2 semanas.";
+                }
+                
+                if (message.includes('diferença') || message.includes('diferencial') || message.includes('vantagem') || message.includes('melhor')) {
+                    return "O Agent S2 se diferencia no mercado por sua tecnologia proprietária de IA que aprende continuamente com as interações. Nossos diferenciais incluem:<br><br>• Taxa de resolução de 85% sem intervenção humana<br>• Algoritmo adaptativo que melhora com o tempo<br>• Modelo híbrido que combina regras e aprendizado de máquina<br>• Interface de gerenciamento intuitiva<br>• Personalização avançada de fluxos de conversa<br>• Análises detalhadas e insights de negócio";
+                }
+                
+                if (message.includes('contato') || message.includes('demonstração') || message.includes('demo')) {
+                    return "Ficamos felizes com seu interesse! Para agendar uma demonstração do Agent S2 ou falar com nossa equipe comercial, você pode:<br><br>• Ligar para (11) 3456-7890<br>• Enviar email para contato@likelooksolutions.com<br>• Preencher o formulário em nosso site: www.likelooksolutions.com/agent-s2<br><br>Nossa equipe entrará em contato em até 24 horas úteis.";
+                }
+                
+                if (message.includes('caso') || message.includes('exemplo') || message.includes('história')) {
+                    return "Temos diversos casos de sucesso com o Agent S2! Por exemplo, a rede de varejo FastShop implementou nossa solução e obteve:<br><br>• Redução de 40% nos custos de atendimento<br>• Aumento de 25% na satisfação dos clientes<br>• Diminuição de 60% no tempo médio de resposta<br>• ROI positivo em apenas 3 meses<br><br>Outro caso interessante é o da fintech PaySimple, que aumentou sua taxa de conversão em 15% após implementar o Agent S2 no funil de vendas.";
+                }
+                
+                if (message.includes('like look') || message.includes('empresa') || message.includes('desenvolvedor')) {
+                    return "A Like Look Solutions é uma empresa brasileira de tecnologia fundada em 2018, especializada em soluções de inteligência artificial para otimização de processos de negócio. Com sede em São Paulo e escritórios no Rio de Janeiro e Recife, contamos com mais de 120 colaboradores e atendemos clientes em todo o Brasil e América Latina. Nossa missão é democratizar o acesso à IA para empresas de todos os portes.";
+                }
+                
+                if (message.includes('integração') || message.includes('integra') || message.includes('conecta')) {
+                    return "O Agent S2 possui APIs robustas e conectores prontos para integração com as principais plataformas do mercado, incluindo:<br><br>• Salesforce<br>• SAP<br>• HubSpot<br>• Zendesk<br>• RD Station<br>• WhatsApp Business API<br>• Facebook Messenger<br>• Instagram<br>• Telegram<br>• Sistemas proprietários via API REST";
+                }
+                
+                if (message.includes('segurança') || message.includes('dados') || message.includes('lgpd') || message.includes('privacidade')) {
+                    return "A segurança é prioridade para nós! O Agent S2 é totalmente aderente à LGPD e segue as melhores práticas de segurança de dados, incluindo:<br><br>• Criptografia de ponta a ponta<br>• Data centers certificados ISO 27001<br>• Backups automáticos e redundância<br>• Controle granular de acessos<br>• Anonimização de dados sensíveis<br>• Políticas de retenção configuráveis<br>• Auditorias regulares de segurança";
+                }
+                
+                // Default responses for greetings and common phrases
+                if (message.includes('olá') || message.includes('oi') || message.includes('bom dia') || message.includes('boa tarde') || message.includes('boa noite')) {
+                    return "Olá! É um prazer conversar com você. Como posso ajudar com informações sobre o Agent S2 da Like Look Solutions?";
+                }
+                
+                if (message.includes('obrigado') || message.includes('obrigada') || message.includes('valeu')) {
+                    return "Eu que agradeço pelo seu interesse no Agent S2! Estou sempre à disposição para esclarecer qualquer dúvida adicional.";
+                }
+                
+                if (message.includes('tchau') || message.includes('adeus') || message.includes('até logo')) {
+                    return "Foi um prazer atendê-lo! Se precisar de mais informações sobre o Agent S2, estou à disposição. Tenha um ótimo dia!";
+                }
+                
+                // Default response for unknown queries
+                return "Entendo sua pergunta sobre o Agent S2. Para fornecer informações mais precisas, poderia elaborar um pouco mais sobre o que gostaria de saber? Posso falar sobre funcionalidades, preços, implementação, integrações ou casos de sucesso.";
+            }
+            
+            // Initialize voice list when voices are loaded (needed for Chrome)
+            if (speechSynthesis.onvoiceschanged !== undefined) {
+                speechSynthesis.onvoiceschanged = function() {
+                    updateSpeakButtonState();
+                };
+            }
+            
+            // Initially disable speak button until there's a message
+            updateSpeakButtonState(false);
+        });
+    </script>
+</body>
+</html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
